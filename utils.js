@@ -58,39 +58,119 @@ function updateScreen() {
     MARKUP5.y += MARKUP5.yDirection;
 }
 
+function updateLeftCars() {
+    LEFTCARS.y_1 += LEFTCARS.speed;
+    LEFTCARS.y_2 += LEFTCARS.speed;
+    blue_car.style.top = LEFTCARS.y_1 + 'px'
+    yellow_lam.style.top = LEFTCARS.y_2 + 'px'
+
+    RIGHTCARS.y_1 += RIGHTCARS.speed;
+    RIGHTCARS.y_2 += RIGHTCARS.speed;
+    blue_cabriolet.style.top = RIGHTCARS.y_1 + 'px'
+    lam.style.top = RIGHTCARS.y_2 + 'px'
+
+    if (blue_car.y > 1500) {
+        LEFTCARS.y_1 = -150
+        blue_car.style.top = LEFTCARS.y_1 + 'px'
+    }
+
+    if (yellow_lam.y > 1500) {
+        LEFTCARS.y_2 = -700
+        yellow_lam.style.top = LEFTCARS.y_2 + 'px'
+    }
+
+    if (blue_cabriolet.y > 1600) {
+        RIGHTCARS.y_1 = -500
+        blue_cabriolet.style.top = RIGHTCARS.y_1 + 'px'
+    }
+
+    if (lam.y > 1600) {
+        RIGHTCARS.y_2 = -250
+        lam.style.top = RIGHTCARS.y_2 + 'px'
+    }
+}
+
+
+function crashing() {
+    return (
+        car.x + car.width - 5 >= lam.x &&
+        car.x <= lam.x + lam.width - 5 &&
+        car.y + car.height >= lam.y - lam.height + 10 &&
+        car.y <= lam.y + lam.height + lam.height - 10 ||
+        car.x + car.width - 5 >= blue_car.x &&
+        car.x <= blue_car.x + blue_car.width - 5 &&
+        car.y + car.height >= blue_car.y - blue_car.height + 10 &&
+        car.y <= blue_car.y + blue_car.height + blue_car.height - 10 ||
+        car.x + car.width - 5 >= blue_cabriolet.x &&
+        car.x <= blue_cabriolet.x + blue_cabriolet.width - 5 &&
+        car.y + car.height >= blue_cabriolet.y - blue_cabriolet.height + 10 &&
+        car.y <= blue_cabriolet.y + blue_cabriolet.height + blue_cabriolet.height - 10 ||
+        car.x + car.width - 5 >= yellow_lam.x &&
+        car.x <= yellow_lam.x + yellow_lam.width - 5 &&
+        car.y + car.height >= yellow_lam.y - yellow_lam.height + 10 &&
+        car.y <= yellow_lam.y + yellow_lam.height + yellow_lam.height - 10
+    );
+}
+
 function InitEventsListeners() {
-    window.addEventListener("mousemove", moveAt);
     window.addEventListener("keydown", keyAt);
 }
 
-function moveAt(event) {
-    car.style.left = event.clientX - car.offsetWidth / 2 + 'px';
-    clampCarPosition();
-}
-
-function clampCarPosition() {
-    if (car.x < 938) {
-        car.style.left = 469 + 'px';
-    }
-    if (car.x + car.offsetWidth > 1838) {
-        car.style.left = 870 + 'px';
-    }
-}
-
 function keyAt(event) {
-    console.log(car.style.left)
     if (event.key === "ArrowLeft") {
-        car.style.left -= 4 + 'px';
+        if (CAR.left - 112 < 450) {
+        } else {
+            CAR.left -= 112;
+        }
     }
     if (event.key === "ArrowRight") {
-        car.style.left += 4 + 'px';
+        if (CAR.left + 112 > 900) {
+        } else {
+            CAR.left += 112;
+        }
     }
-    clampCarPosition();
+    car.style.left = CAR.left + 'px'
+    car.style.transition = 'all 0.15s ease-in-out'
 }
 
+let startTime;
+let timeLeft = 20000;
+
 function play() {
-    drawFrame();
-    drawMarkup();
-    updateScreen();
-    requestAnimationFrame(play);
+    if (!startTime) {
+        startTime = Date.now();
+    }
+
+    if (!crashing()) {
+        drawFrame();
+        drawMarkup();
+        updateScreen();
+        updateLeftCars();
+        requestAnimationFrame(play);
+
+        let elapsedTime = Date.now() - startTime;
+        timeLeft = 20000 - elapsedTime;
+        if (timeLeft < 0) {
+            timeLeft = 0;
+        }
+
+        let timerElement = document.querySelector('#timer');
+        timerElement.textContent = `Time left: ${Math.ceil(timeLeft / 1000)} seconds`;
+    } else {
+        audio.pause();
+        losing_audio.play();
+
+        document.querySelector('#lose-modal').style.display = 'flex';
+        document.getElementById('restart-btn').addEventListener('click', function () {
+            location.reload();
+        });
+    }
+
+    if (timeLeft <= 0) {
+        audio.pause();
+        document.querySelector('#win-modal').style.display = 'flex';
+        document.getElementById('restart-btn-win').addEventListener('click', function () {
+            location.reload();
+        });
+    }
 }

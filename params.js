@@ -1,6 +1,6 @@
 let SCREEN = {
     width: 1423,
-    height: 804,
+    height: 820,
     grass_color: "#36862d",
     way_color: "#808080",
     border: "#505050",
@@ -8,12 +8,30 @@ let SCREEN = {
     widthGrass: 474
 }
 
+CAR = {
+    left: 740,
+    width: 60
+}
+
+LEFTCARS = {
+    y_1: 600,
+    y_2: 320,
+    speed: 13
+}
+
+RIGHTCARS = {
+    y_1: 120,
+    y_2: 450,
+    speed: 7
+}
+
+
 let MARKUP1 = {
     width: 8,
     height: 60,
     y: 0,
     color: "#ffffff",
-    yDirection: 8
+    yDirection: 10
 }
 
 let MARKUP2 = {
@@ -21,7 +39,7 @@ let MARKUP2 = {
     height: 60,
     y: 167,
     color: "#ffffff",
-    yDirection: 8
+    yDirection: 10
 }
 
 let MARKUP3 = {
@@ -29,7 +47,7 @@ let MARKUP3 = {
     height: 60,
     y: 334,
     color: "#ffffff",
-    yDirection: 8
+    yDirection: 10
 }
 
 let MARKUP4 = {
@@ -37,7 +55,7 @@ let MARKUP4 = {
     height: 60,
     y: 501,
     color: "#ffffff",
-    yDirection: 8
+    yDirection: 10
 }
 
 let MARKUP5 = {
@@ -45,5 +63,5 @@ let MARKUP5 = {
     height: 60,
     y: 678,
     color: "#ffffff",
-    yDirection: 8
+    yDirection: 10
 }

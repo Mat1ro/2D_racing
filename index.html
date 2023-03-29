@@ -3,11 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>2D racing</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <canvas id="field"></canvas>
-    <script src="params.js"></script>
-    <script src="utils.js"></script>
-    <script src="racing.js" type="application/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<canvas id="field"></canvas>
+<script src="params.js"></script>
+<script src="utils.js"></script>
+<script src="racing.js" type="application/javascript"></script>
+<div class="modal" id="lose-modal">
+  <div class="modal-content">
+    <h2>Вы проиграли</h2>
+    <p>Попробуйте еще раз</p>
+    <button class="btn btn-primary" id="restart-btn">Играть заново</button>
+  </div>
+</div>
+<div class="modal" id="win-modal">
+  <div class="modal-content">
+    <h2>Вы победили</h2>
+    <p>Поздравляем с победой!</p>
+    <button class="btn btn-primary" id="restart-btn-win">Играть снова</button>
+  </div>
+</div>
+</div>
+<div id="timer"></div>
 </body>
 </html>
